@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Marcelus Simplifica - Ferramentas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset e base */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 20px 40px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+    }
+    .container {
+      max-width: 960px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 6vw, 3.6rem);
+      color: #00BFA6;
+      margin-bottom: 48px;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 8px #00bfa6aa;
+      user-select: text;
+    }
+
+    /* Grid flexível para os cards */
+    .grid-ferramentas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+    }
+
+    /* Cards como links */
+    .card {
+      background: #222;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0, 191, 166, 0.3);
+      width: 300px;
+      padding: 28px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.3s ease;
+      user-select: none;
+    }
+    .card:focus,
+    .card:hover {
+      outline: none;
+      background-color: #004D40;
+      box-shadow: 0 12px 30px rgba(0, 191, 166, 0.7);
+      transform: translateY(-10px) scale(1.05);
+    }
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #00BFA6;
+      user-select: text;
+    }
+    .card p {
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: #c7d9d5;
+      user-select: text;
+      flex-grow: 1;
+    }
+
+    /* Responsividade */
+    @media (max-width: 640px) {
+      .card {
+        width: 100%;
+      }
+      body {
+        padding: 40px 12px 30px;
+      }
+      h1 {
+        font-size: 2.4rem;
+        margin-bottom: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>Ferramentas Marcelus Simplifica</h1>
+    <nav class="grid-ferramentas" role="list" aria-label="Lista de ferramentas">
+
+      <a href="#" class="card" role="listitem" tabindex="0" aria-label="Comparação Consórcio versus Financiamento">
+        <h3>Comparação Consórcio vs Financiamento</h3>
+        <p>Analise os prós e contras de cada opção para identificar a melhor escolha para seu perfil e objetivo.</p>
+      </a>
+
+      <a href="#" class="card" role="listitem" tabindex="0" aria-label="Gerar Parcelas">
+        <h3>Gerar Parcelas</h3>
+        <p>Calcule o valor das parcelas conforme prazos, taxas e valores definidos para facilitar seu planejamento.</p>
+      </a>
+
+      <a href="#" class="card" role="listitem" tabindex="0" aria-label="Calculadora de Proposta">
+        <h3>Calculadora de Proposta</h3>
+        <p>Simule propostas detalhadas para avaliar condições, valores e prazos antes de tomar decisões.</p>
+      </a>
+
+    </nav>
+  </div>
+</body>
+</html>
