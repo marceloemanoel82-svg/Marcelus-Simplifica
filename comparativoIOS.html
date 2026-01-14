@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Simulador Consórcio x Financiamento</title>
+
+<style>
+/* RESET BÁSICO COMPATÍVEL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #0f172a;
+    padding: 16px;
+}
+
+/* SAFE AREA IPHONE */
+.container {
+    max-width: 420px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+/* TEXTOS */
+h1 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+/* FORM */
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    background: #fff;
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: #2563eb;
+    border: none;
+    border-radius: 12px;
+}
+
+/* RESULTADOS */
+.resultado {
+    margin-top: 20px;
+}
+
+.card {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.linha {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.valor {
+    font-weight: 600;
+}
+
+/* DESTAQUES */
+.consorcio {
+    border-left: 5px solid #16a34a;
+}
+
+.financiamento {
+    border-left: 5px solid #2563eb;
+}
+
+.badge {
+    background: #dcfce7;
+    color: #166534;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Simulador Financeiro</h1>
+    <div class="subtitle">
+        Comparação justa entre Consórcio e Financiamento
+    </div>
+
+    <label>Tipo de Crédito</label>
+    <select id="tipo">
+        <option value="imobiliario">Imobiliário</option>
+        <option value="veicular">Veicular</option>
+    </select>
+
+    <label>Valor da Entrada (R$)</label>
+    <input type="number" id="entrada" placeholder="Ex: 50000">
+
+    <label>Prazo (meses)</label>
+    <input type="number" id="meses" placeholder="Ex: 180">
+
+    <button onclick="simular()">Simular</button>
+
+    <div id="resultado" class="resultado"></div>
+</div>
+
+<script>
+function simular() {
+    var tipo = document.getElementById("tipo").value;
+    var entrada = parseFloat(document.getElementById("entrada").value);
+    var meses = parseInt(document.getElementById("meses").value);
+
+    if (!entrada || !meses) {
+        alert("Preencha todos os campos corretamente.");
+        return;
+    }
+
+    var cartaTotal = entrada * 10;
+    var lance = cartaTotal * 0.5;
+    var cartaLivre = cartaTotal * 0.5;
+
+    var taxaConsorcio = tipo === "imobiliario" ? 0.28 : 0.19;
+    var totalConsorcio = cartaLivre * (1 + taxaConsorcio);
+    var parcelaConsorcio = totalConsorcio / meses;
+
+    var jurosMensal = tipo === "imobiliario" ? 0.009 : 0.018;
+    var parcelaFinanciamento =
+        cartaLivre *
+        (jurosMensal * Math.pow(1 + jurosMensal, meses)) /
+        (Math.pow(1 + jurosMensal, meses) - 1);
+
+    var totalFinanciamento = parcelaFinanciamento * meses;
+
+    var economia = totalFinanciamento - totalConsorcio;
+    var economiaPct = (economia / totalFinanciamento) * 100;
+
+    document.getElementById("resultado").innerHTML = `
+        <div class="card">
+            <div class="linha"><span>Carta total</span><span class="valor">R$ ${cartaTotal.toLocaleString('pt-BR')}</span></div>
+            <div class="linha"><span>Lance (50%)</span><span class="valor">R$ ${lance.toLocaleString('pt-BR')}</span></div>
+            <div class="linha"><span>Carta livre</span><span class="valor">R$ ${cartaLivre.toLocaleString('pt-BR')}</span></div>
+        </div>
+
+        <div class="card consorcio">
+            <h3>Consórcio</h3>
+            <div class="linha"><span>Taxa administrativa</span><span class="valor">${(taxaConsorcio*100).toFixed(1)}%</span></div>
+            <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaConsorcio.toFixed(2)}</span></div>
+            <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalConsorcio.toLocaleString('pt-BR')}</span></div>
+        </div>
+
+        <div class="card financiamento">
+            <h3>Financiamento</h3>
+            <div class="linha"><span>Juros ao mês</span><span class="valor">${(jurosMensal*100).toFixed(2)}%</span></div>
+            <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaFinanciamento.toFixed(2)}</span></div>
+            <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalFinanciamento.toLocaleString('pt-BR')}</span></div>
+        </div>
+
+        <div class="badge">
+            Consórcio é mais vantajoso<br>
+            Economia de R$ ${economia.toLocaleString('pt-BR')} (${economiaPct.toFixed(1)}%)
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
