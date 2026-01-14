@@ -1,213 +1,268 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <title>Simulador Consórcio x Financiamento</title>
 
 <style>
-/* RESET BÁSICO COMPATÍVEL */
-* {
+  :root {
+    --bg: #0f172a;
+    --card: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.12);
+    --primary: #22c55e;
+    --primary-dark: #16a34a;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --alert: #fef3c7;
+    --alert-text: #92400e;
+  }
+
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #0f172a;
-    padding: 16px;
-}
+  body {
+    background: linear-gradient(160deg, #020617, var(--bg));
+    color: var(--text);
+    padding: 32px 16px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
 
-/* SAFE AREA IPHONE */
-.container {
-    max-width: 420px;
-    margin: auto;
-    background: #ffffff;
+  .container {
+    max-width: 440px;
+    width: 100%;
+    background: var(--card);
+    backdrop-filter: blur(12px);
     border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
-}
+    padding: 24px 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  }
 
-/* TEXTOS */
-h1 {
-    font-size: 20px;
+  h1 {
+    font-size: 2rem;
     text-align: center;
-    margin-bottom: 6px;
-}
+    margin-bottom: 12px;
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    user-select: text;
+    text-shadow: 0 0 8px var(--primary);
+  }
 
-.subtitle {
+  .subtitle {
     text-align: center;
-    font-size: 13px;
-    color: #6b7280;
-    margin-bottom: 16px;
-}
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
 
-/* FORM */
-label {
+  label {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    margin-top: 12px;
-}
+    margin-top: 14px;
+    color: var(--muted);
+    user-select: text;
+  }
 
-input, select {
+  input, select {
     width: 100%;
     padding: 12px;
     margin-top: 6px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text);
     font-size: 15px;
-    background: #fff;
-}
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
 
-/* BOTÃO */
-button {
+  input:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+  }
+
+  button {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 22px;
     padding: 14px;
     font-size: 16px;
     font-weight: 600;
-    color: #fff;
-    background: #2563eb;
+    color: #022c22;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     border: none;
-    border-radius: 12px;
-}
-
-/* RESULTADOS */
-.resultado {
-    margin-top: 20px;
-}
-
-.card {
-    background: #f8fafc;
     border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 12px;
-}
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
 
-.card h3 {
-    font-size: 15px;
-    margin-bottom: 8px;
-}
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(34, 197, 94, 0.35);
+  }
 
-.linha {
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .resultado {
+    margin-top: 24px;
+    user-select: text;
+  }
+
+  .card {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .linha {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    margin-bottom: 6px;
-}
+    margin-bottom: 8px;
+    color: var(--text);
+  }
 
-.valor {
+  .valor {
     font-weight: 600;
-}
+  }
 
-/* DESTAQUES */
-.consorcio {
-    border-left: 5px solid #16a34a;
-}
+  .consorcio {
+    border-left: 5px solid var(--primary);
+  }
 
-.financiamento {
-    border-left: 5px solid #2563eb;
-}
+  .financiamento {
+    border-left: 5px solid var(--primary-dark);
+  }
 
-.badge {
-    background: #dcfce7;
-    color: #166534;
-    padding: 12px;
-    border-radius: 12px;
+  .badge {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--primary-dark);
+    padding: 14px;
+    border-radius: 14px;
     text-align: center;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 700;
-}
+    user-select: text;
+    box-shadow: 0 6px 24px rgba(34, 197, 94, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 24px 12px;
+    }
+    .container {
+      padding: 20px 20px;
+      max-width: 100%;
+    }
+  }
 </style>
 </head>
 
 <body>
-
-<div class="container">
+  <div class="container" role="main">
     <h1>Simulador Financeiro</h1>
     <div class="subtitle">
-        Comparação justa entre Consórcio e Financiamento
+      Comparação justa entre Consórcio e Financiamento
     </div>
 
-    <label>Tipo de Crédito</label>
-    <select id="tipo">
-        <option value="imobiliario">Imobiliário</option>
-        <option value="veicular">Veicular</option>
+    <label for="tipo">Tipo de Crédito</label>
+    <select id="tipo" name="tipo" aria-label="Tipo de Crédito">
+      <option value="imobiliario">Imobiliário</option>
+      <option value="veicular">Veicular</option>
     </select>
 
-    <label>Valor da Entrada (R$)</label>
-    <input type="number" id="entrada" placeholder="Ex: 50000">
+    <label for="entrada">Valor da Entrada (R$)</label>
+    <input type="number" id="entrada" name="entrada" placeholder="Ex: 50000" aria-required="true" />
 
-    <label>Prazo (meses)</label>
-    <input type="number" id="meses" placeholder="Ex: 180">
+    <label for="meses">Prazo (meses)</label>
+    <input type="number" id="meses" name="meses" placeholder="Ex: 180" aria-required="true" />
 
-    <button onclick="simular()">Simular</button>
+    <button onclick="simular()" aria-label="Simular consórcio e financiamento">Simular</button>
 
-    <div id="resultado" class="resultado"></div>
-</div>
+    <div id="resultado" class="resultado" aria-live="polite" aria-atomic="true"></div>
+  </div>
 
-<script>
-function simular() {
-    var tipo = document.getElementById("tipo").value;
-    var entrada = parseFloat(document.getElementById("entrada").value);
-    var meses = parseInt(document.getElementById("meses").value);
+  <script>
+    function simular() {
+      const tipo = document.getElementById("tipo").value;
+      const entrada = parseFloat(document.getElementById("entrada").value);
+      const meses = parseInt(document.getElementById("meses").value);
+      const resultado = document.getElementById("resultado");
 
-    if (!entrada || !meses) {
+      if (!entrada || !meses) {
         alert("Preencha todos os campos corretamente.");
         return;
-    }
+      }
 
-    var cartaTotal = entrada * 10;
-    var lance = cartaTotal * 0.5;
-    var cartaLivre = cartaTotal * 0.5;
+      const cartaTotal = entrada * 10;
+      const lance = cartaTotal * 0.5;
+      const cartaLivre = cartaTotal * 0.5;
 
-    var taxaConsorcio = tipo === "imobiliario" ? 0.28 : 0.19;
-    var totalConsorcio = cartaLivre * (1 + taxaConsorcio);
-    var parcelaConsorcio = totalConsorcio / meses;
+      const taxaConsorcio = tipo === "imobiliario" ? 0.28 : 0.19;
+      const totalConsorcio = cartaLivre * (1 + taxaConsorcio);
+      const parcelaConsorcio = totalConsorcio / meses;
 
-    var jurosMensal = tipo === "imobiliario" ? 0.009 : 0.018;
-    var parcelaFinanciamento =
+      const jurosMensal = tipo === "imobiliario" ? 0.009 : 0.018;
+      const parcelaFinanciamento =
         cartaLivre *
         (jurosMensal * Math.pow(1 + jurosMensal, meses)) /
         (Math.pow(1 + jurosMensal, meses) - 1);
 
-    var totalFinanciamento = parcelaFinanciamento * meses;
+      const totalFinanciamento = parcelaFinanciamento * meses;
 
-    var economia = totalFinanciamento - totalConsorcio;
-    var economiaPct = (economia / totalFinanciamento) * 100;
+      const economia = totalFinanciamento - totalConsorcio;
+      const economiaPct = (economia / totalFinanciamento) * 100;
 
-    document.getElementById("resultado").innerHTML = `
+      resultado.innerHTML = `
         <div class="card">
-            <div class="linha"><span>Carta total</span><span class="valor">R$ ${cartaTotal.toLocaleString('pt-BR')}</span></div>
-            <div class="linha"><span>Lance (50%)</span><span class="valor">R$ ${lance.toLocaleString('pt-BR')}</span></div>
-            <div class="linha"><span>Carta livre</span><span class="valor">R$ ${cartaLivre.toLocaleString('pt-BR')}</span></div>
+          <div class="linha"><span>Carta total</span><span class="valor">R$ ${cartaTotal.toLocaleString('pt-BR')}</span></div>
+          <div class="linha"><span>Lance (50%)</span><span class="valor">R$ ${lance.toLocaleString('pt-BR')}</span></div>
+          <div class="linha"><span>Carta livre</span><span class="valor">R$ ${cartaLivre.toLocaleString('pt-BR')}</span></div>
         </div>
 
-        <div class="card consorcio">
-            <h3>Consórcio</h3>
-            <div class="linha"><span>Taxa administrativa</span><span class="valor">${(taxaConsorcio*100).toFixed(1)}%</span></div>
-            <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaConsorcio.toFixed(2)}</span></div>
-            <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalConsorcio.toLocaleString('pt-BR')}</span></div>
+        <div class="card consorcio" role="region" aria-label="Detalhes do Consórcio">
+          <h3>Consórcio</h3>
+          <div class="linha"><span>Taxa administrativa</span><span class="valor">${(taxaConsorcio*100).toFixed(1)}%</span></div>
+          <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaConsorcio.toFixed(2)}</span></div>
+          <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalConsorcio.toLocaleString('pt-BR')}</span></div>
         </div>
 
-        <div class="card financiamento">
-            <h3>Financiamento</h3>
-            <div class="linha"><span>Juros ao mês</span><span class="valor">${(jurosMensal*100).toFixed(2)}%</span></div>
-            <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaFinanciamento.toFixed(2)}</span></div>
-            <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalFinanciamento.toLocaleString('pt-BR')}</span></div>
+        <div class="card financiamento" role="region" aria-label="Detalhes do Financiamento">
+          <h3>Financiamento</h3>
+          <div class="linha"><span>Juros ao mês</span><span class="valor">${(jurosMensal*100).toFixed(2)}%</span></div>
+          <div class="linha"><span>Parcela</span><span class="valor">R$ ${parcelaFinanciamento.toFixed(2)}</span></div>
+          <div class="linha"><span>Total pago</span><span class="valor">R$ ${totalFinanciamento.toLocaleString('pt-BR')}</span></div>
         </div>
 
-        <div class="badge">
-            Consórcio é mais vantajoso<br>
-            Economia de R$ ${economia.toLocaleString('pt-BR')} (${economiaPct.toFixed(1)}%)
+        <div class="badge" role="status" aria-live="polite" aria-atomic="true">
+          Consórcio é mais vantajoso<br />
+          Economia de R$ ${economia.toLocaleString('pt-BR')} (${economiaPct.toFixed(1)}%)
         </div>
-    `;
-}
-</script>
-
+      `;
+    }
+  </script>
 </body>
-</html>
+        </html>
